@@ -7,7 +7,11 @@ As the effects of climate change are intensifying the magnitude and frequency of
 ## Executive Summary
 Our decision to base our program on information scraped from Twitter was due to Twitter's open scraping and privacy policies. However, the models we built could potentially be adapted to any social media platform, assuming the government first responders have authority to access those platforms like Facebook or Instagram. We used Twitterscaper, a well known tool for scraping Twitter, to access historical tweets of four different natural disasters and identify the most common forms of urgent help requests. The number of tweets was naturally enormous, making it difficult to sort through and find content actually containing emergencies, especially considering the proclivity of Twitter users to say things like "Help me!!" or "Get me outta here!!" when they're at their inlaws'. Our method to deal with this beyond reading twenty thousand tweets, was to establish a baseline of "crisis words" to red flag potential tweets and then narrow it down further by creating a bag of "anti-crisis words". This was somewhat successful, but still returning a number of non-emergency tweetsDue to privacy issues the locations of the scraped tweets were withheld, preventing us from using the location of an emergency in our predictive model. However, to clear up any potential confusion, our final dataframe includes randomly generated geographic points with an emphasis on areas where there would be a supposed concentration of emergencies. 
 
-**Data**
+## Data
+### Datasets
+Each targeted disaster was scraped and saved to its own csv file. These datasets were then compiled into one and cleaned, and had locations attached to each tweet. The final dataset is `clean_df.csv`.
+
+### Data Dictionary
 
 |Category|Description|Example|
 |---|---|---|
@@ -22,19 +26,17 @@ Our decision to base our program on information scraped from Twitter was due to 
 |username|Username|SomeRandomDude|
 |disaster|The type of disaster|Hurricane|
 
-## Model Interpretation
-With 20,694 tweets and only 2,202 potential emergencies, any baseline model would be completely ineffective because it would either allocate resources to every single tweet out there or none at all. 
 
-![Proof of concept](/Images/Example.png)
+## Conclusions and Recommendations
+**Conclusion**  
+We were able to create a model that had an 89.1% recall towards new data (the test set), while minimizing variance as much as possible. Compared to the base model, we were able to increase the overall accuracy from 90.3% to 98.8%. During this process, we discovered how difficult it can be to determine if someone is trying to reach out for help through a tweet. Many times, words that might be used to indicate trouble are merely warnings, or news updates, making it extremely important to have correctly classified data to train the model on. There are many times where a model may not be able to determine context in certain language that a person would be able to identify.
 
-## Conclusions
-Our final model had a score of BLANK 
+**Recommendations** 
+We recommend while using this model to get broader social media access in order to access the location of each tweet. Having the real-time geolocation of the tweets is crucial as it would be difficult to map otherwise. It would also be helpful to have information about the timing of the tweets and using the frequency of tweets in a given time span to gauge how urgent the emergency is.  
 
-**Possible ways to improve the model**
-1) Getting access to data with locations during actual emergencies to train or model and help it predict the locations of actual emergencies.
-2) Using time to improve the model as well. It could be that tweets which are uploaded in close proximity would indicate emergencies.
-3) Further narrowing of the targeted tweets, to be more specific and more likely to be actual emergencies. This would involve a lot of manual labor but probably would be the best solution.
-4) More tweets in disaster situations to find variations of calls for help.
+**Limitations**  
+This model has many limitations. The dataset does not include all varieties of natural disasters and therefore might not be well prepared to classify tweets during natural disasters outside of the types we scraped twitter for. Also, the data works with a limited time frame. 
 
+Our dataset is also limited to twitter only as it was the only social media platform that we were able to scrape. While having access to Facebook statuses would have been more helpful, most people have hidden profiles and statuses are not as easily accesible. Twitter was the only viable option as we were able to search for specific terms found in tweets. However, with twitter we were unable to acquire location data for the individual tweets. Location would have been useful to include as a feature for our model.
 
-
+It is also important to keep in mind the steps take early in the process to artificially create our target class in the dataset. In order to apply this model to a real-world scenario, it would be helpful to have a dataset that has already been combed and properly classified as to its emergency status.
